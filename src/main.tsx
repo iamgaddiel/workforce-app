@@ -4,8 +4,13 @@ import App from './App';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
+
+import { RecoilRoot } from 'recoil'
+
 root.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>
 );

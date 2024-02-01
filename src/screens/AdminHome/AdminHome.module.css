@@ -1,0 +1,59 @@
+.db__section{
+    border-radius: 12px;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+    display: flex;
+    align-items: end;
+}
+
+.db__section_1{
+    height: 20dvh;
+    background-color: var(--ion-color-warning);
+}
+.db__section_2{
+    height: 25dvh;
+    background-color: var(--ion-color-medium);
+    
+}
+.db__section_3{
+    height: 25dvh;
+    background-color: var(--ion-color-tertiary);
+    
+}
+.db__section_4{
+    height: 20dvh;
+    background-color: var(--ion-color-primary);
+}
+
+.db__section::after{
+    content: '';
+    position: absolute;
+    background-image: url('../../assets/images/cirular-line-chart.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #ffffff !important;
+    z-index: -1;
+    width: 100%;
+    opacity: .7;
+}
+
+.db__section_1::after{
+    inset: 0px;
+}
+.db__section_2::after{
+    inset: 0;
+}
+.db__section_3::after{
+    inset: 0;
+    transform: rotate(170deg);
+    margin-right: 10rem;
+}
+.db__section_4::after{
+    inset: 0;
+    transform: rotate(90deg);
+    transform: scale(1.7);
+}

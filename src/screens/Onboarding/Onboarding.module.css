@@ -1,0 +1,23 @@
+.logo_wrapper{
+    margin: auto;
+    /* width: 50px; */
+}
+
+.logo_wrapper img{
+    width: 100%;
+    height: auto;
+}
+
+.title{
+    text-align: center;
+    font-size: 1.4rem;
+    letter-spacing: 5px;
+}
+
+ion-content{
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    background: red;
+    
+}
