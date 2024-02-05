@@ -1,4 +1,4 @@
-import { IonAvatar, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToolbar, setupIonicReact, useIonAlert, useIonRouter, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
+import { IonAvatar, IonBackButton, IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToolbar, setupIonicReact, useIonAlert, useIonRouter, useIonViewDidEnter, useIonViewWillEnter } from '@ionic/react';
 import { add, ellipsisVertical, search, trash } from 'ionicons/icons';
 import React, { useState } from 'react';
 import SmallAvatarImage from '../../components/SmallAvatarImage/SmallAvatarImage';
@@ -6,24 +6,49 @@ import SmallAvatarImage from '../../components/SmallAvatarImage/SmallAvatarImage
 import { createAvatar } from '@dicebear/core';
 import { thumbs } from '@dicebear/collection';
 import AddUserModal from '../../components/AddUserModal/AddUserModal';
+import useUser from '../../hooks/useUser';
+import Settings from '../../helpers/settings';
+import useToast from '../../hooks/useToast';
 
 
+
+const { supabase } = Settings()
 
 const UserList: React.FC = () => {
     const [userAvatar, setUserAvatar] = useState('')
     const [isOpen, setIsOpen] = useState(false)
+    const [users, setUser] = useState()
+
+    const userObject = useUser()
+    const { showToast } = useToast()
 
     const router = useIonRouter()
     const [presentAlert, dismissAlert] = useIonAlert()
 
 
+
     useIonViewWillEnter(() => {
         (async () => {
             const avatar = createAvatar(thumbs, {
-                seed: 'make'
+                seed: userObject?.user?.email!
             });
             const image = await avatar.toDataUri();
             setUserAvatar(image)
+        })()
+    }, [])
+
+
+    // Get list of Users
+    useIonViewWillEnter(() => {
+        (async () => {
+            const { data, error } = await supabase.auth.admin.listUsers()
+            if (error) {
+                showToast('Could not fetch user list', 'danger')
+                return
+            }
+            
+            console.log("🚀 ~ data:", data)
+            
         })()
     }, [])
 
@@ -53,8 +78,11 @@ const UserList: React.FC = () => {
             <IonHeader className='ion-no-border'>
                 <IonToolbar>
                     <IonGrid>
-                        <IonRow className='ion-justify-content-between bf-danger'>
-                            <IonCol size='8' className='ion-text-start'>
+                        <IonRow className='ion-justify-content-between align-items-center bf-danger'>
+                            <IonCol size='2' className='ion-text-start'>
+                                <IonBackButton defaultHref='/app/dashboard/home' />
+                            </IonCol>
+                            <IonCol size='2' className='ion-text-start'>
                                 <IonText>Users</IonText>
                             </IonCol>
                             <IonCol size='4'>

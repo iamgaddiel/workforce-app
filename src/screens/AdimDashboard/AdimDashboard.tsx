@@ -1,48 +1,46 @@
 import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { home, readerOutline, cogSharp } from 'ionicons/icons';
+import { home, readerOutline, person } from 'ionicons/icons';
 import React from 'react';
-import { Route } from 'react-router-dom';
-import Tab3 from '../Tab3';
+import { Redirect, Route } from 'react-router-dom';
 import AdminHome from '../AdminHome/AdminHome';
 import AdminReport from '../AdminReports/AdminReports';
 import UserList from '../UserList/UserList';
 import SearchUser from '../SearchUser/SearchUser';
 import UserDetail from '../UserDetail/UserDetail';
 import ReportDetail from '../ReportDetail/ReportDetail';
+import Profile from '../Profile/Profile';
+
 
 const AdminDashboard: React.FC = () => {
 
+
     return (
-        <IonReactRouter>
-            <IonTabs>
-                <IonRouterOutlet>
-                    <Route exact path="/dashboard/home" component={AdminHome} />
-                    <Route exact path="/dashboard/reports" component={AdminReport} />
-                    <Route exact path="/dashboard/report-detail/:reportId" component={ReportDetail} />
-                    <Route exact path="/dashboard/users" component={UserList} />
-                    <Route exact path="/dashboard/search-user" component={SearchUser} />
-                    <Route exact path="/dashboard/user-detail/:userId" component={UserDetail} />
-                    <Route path="/tab3">
-                        <Tab3 />
-                    </Route>
-                </IonRouterOutlet>
-                <IonTabBar slot="bottom">
-                    <IonTabButton tab="home" href="/dashboard/home">
-                        <IonIcon aria-hidden="true" icon={home} />
-                        <IonLabel>Dashboard</IonLabel>
-                    </IonTabButton>
-                    <IonTabButton tab="reports" href="/dashboard/reports">
-                        <IonIcon aria-hidden="true" icon={readerOutline} />
-                        <IonLabel>Reports</IonLabel>
-                    </IonTabButton>
-                    <IonTabButton tab="tab3" href="/tab3">
-                        <IonIcon aria-hidden="true" icon={cogSharp} />
-                        <IonLabel>Me</IonLabel>
-                    </IonTabButton>
-                </IonTabBar>
-            </IonTabs>
-        </IonReactRouter>
+        <IonTabs>
+            <IonTabBar slot="bottom">
+                <IonTabButton tab="home" href="/app/dashboard/home">
+                    <IonIcon aria-hidden="true" icon={home} />
+                    <IonLabel>Dashboard</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="reports" href="/app/dashboard/reports">
+                    <IonIcon aria-hidden="true" icon={readerOutline} />
+                    <IonLabel>Reports</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab3" href="/app/dashboard/profile">
+                    <IonIcon aria-hidden="true" icon={person} />
+                    <IonLabel>Me</IonLabel>
+                </IonTabButton>
+            </IonTabBar>
+            <IonRouterOutlet>
+                <Redirect exact from='/app/dashboard' to={'/app/dashboard/home'} />
+                <Route exact path="/app/dashboard/home" component={AdminHome} />
+                <Route exact path="/app/dashboard/reports" component={AdminReport} />
+                <Route exact path="/app/dashboard/report-detail/:reportId" component={ReportDetail} />
+                <Route exact path="/app/dashboard/users" component={UserList} />
+                <Route exact path="/app/dashboard/search-user" component={SearchUser} />
+                <Route exact path="/app/dashboard/user-detail/:userId" component={UserDetail} />
+                <Route exact path="/app/dashboard/profile" component={Profile} />
+            </IonRouterOutlet>
+        </IonTabs>
     );
 };
 

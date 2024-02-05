@@ -1,18 +1,54 @@
-import { IonButton, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
-import { arrowForward, mail, mailOutline } from 'ionicons/icons';
+import { IonButton, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonLoading, useIonRouter, useIonToast } from '@ionic/react';
+import { arrowForward, mail, mailOutline, warning, warningOutline } from 'ionicons/icons';
 import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import style from './Login.module.css'
 import { LoginAuth } from '../../@types/auth';
+import Settings from '../../helpers/settings';
+import { saveData } from '../../helpers/storageSDKs';
+import { USER } from '../../helpers/keys';
+
+
+
 
 const Login: React.FC = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginAuth>()
     const router = useIonRouter()
 
+    const { supabase } = Settings()
 
-    const onSubmit: SubmitHandler<LoginAuth> = (data) => {
-        router.push('/dashboard/home')
+    const [presentToast, dismissToast] = useIonToast()
+
+    const [presentLoading, dismissLoading] = useIonLoading()
+
+    const { register, handleSubmit, formState: { errors } } = useForm<LoginAuth>()
+
+
+
+
+    const onSubmit: SubmitHandler<LoginAuth> = async (formData) => {
+        await presentLoading('Authenticating...')
+
+        const { data, error } = await supabase.auth.signInWithPassword(formData)
+
+        if (error){
+            await dismissLoading()
+            await presentToast({
+                header: 'Authentication Error',
+                message: 'Invalid login credentials, try again',
+                icon: warning,
+                position: 'top',
+                duration: 3000,
+                color: 'danger',
+                swipeGesture: 'vertical'
+            })
+            return
+        }
+
+        console.log(data)
+        await saveData(USER, data)
+        await dismissLoading()
+        router.push('/app/dashboard/home')
     }
 
 
@@ -35,6 +71,7 @@ const Login: React.FC = () => {
                                         message: 'This field is required'
                                     }
                                 })} />
+                                {errors.email && <small className='text-danger'>{errors.email.message}</small>}
                             </IonCol>
                             <IonCol size='12' className='ion-margin-top'>
                                 <IonInput type='password' placeholder='Yu34!d.#2day' label='PASSWORD' labelPlacement='stacked' fill='outline' {...register('password', {
@@ -43,6 +80,7 @@ const Login: React.FC = () => {
                                         message: 'This field is required'
                                     }
                                 })} />
+                                {errors.password && <small className='text-danger'>{errors.password.message}</small>}
                             </IonCol>
                         </IonRow>
                         <IonRow className='ion-justify-content-end ion-margin-top'>

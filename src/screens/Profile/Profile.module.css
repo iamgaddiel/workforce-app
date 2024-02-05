@@ -1,0 +1,9 @@
+.content{
+    position: relative;
+}
+
+.profile__wrapper{
+    position: absolute;
+    bottom: -30px;
+    left: 30px;
+}

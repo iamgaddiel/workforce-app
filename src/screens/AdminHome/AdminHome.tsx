@@ -1,15 +1,19 @@
 import { IonAvatar, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRouterLink, IonRow, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import React from 'react';
 import SmallAvatarImage from '../../components/SmallAvatarImage/SmallAvatarImage';
-import { checkmark, chevronForward } from 'ionicons/icons'
+import { checkmark, chevronForward, people, person, readerOutline } from 'ionicons/icons'
 
 import style from './AdminHome.module.css'
 
 import logo from '../../assets/images/MasterPlaceLOGO.png'
+import useUser from '../../hooks/useUser';
 
 
 const AdminHome: React.FC = () => {
     const router = useIonRouter()
+
+    const userObject = useUser()
+
 
     return (
         <IonPage>
@@ -19,12 +23,12 @@ const AdminHome: React.FC = () => {
                     <IonRow className='ion-justify-content-between align-items-center'>
                         <IonCol size='7'>
                             <IonText>
-                                <small>Hey Username</small> <br />
+                                <small>Hey {userObject?.user?.email!}</small> <br />
                                 <big>Welcome back!</big>
                             </IonText>
                         </IonCol>
                         <IonCol size='2'>
-                            <SmallAvatarImage email='hello@gmail.com' />
+                            <SmallAvatarImage email={userObject?.user?.email!} />
                         </IonCol>
                     </IonRow>
                 </IonGrid>
@@ -32,36 +36,41 @@ const AdminHome: React.FC = () => {
                 {/* Sections */}
                 <IonGrid fixed className='ion-margin-top'>
                     <IonRow className='ion-align-items-end'>
-                        <IonCol size='6' onClick={() => router.push('/dashboard/users')}>
+                        <IonCol size='6' onClick={() => router.push('/app/dashboard/users')}>
                             <div className={`${style.db__section} ${style.db__section_1} ion-padding`}>
+                                <IonIcon icon={people} size='large' /> <br />
                                 <IonText>
                                     <big>Users</big>
                                 </IonText>
                             </div>
                         </IonCol>
-                        <IonCol size='6'>
+                        <IonCol size='6' onClick={() => router.push('/app/dashboard/reports')}>
                             <div className={`${style.db__section} ${style.db__section_2} ion-padding`}>
+                                <IonIcon icon={readerOutline} size='large' /> <br />
                                 <IonText>
-                                    <big>Departments</big>
+                                    <big>Reports</big>
                                 </IonText>
                             </div>
                         </IonCol>
                     </IonRow>
                     <IonRow className='ion-align-items-start'>
-                        <IonCol size='6'>
-                            <div className={`${style.db__section} ${style.db__section_3} ion-padding `}>
-                                <IonText>
-                                    <big>Profile</big>
-                                </IonText>
+                        <IonCol size='12'>
+                            <div className={`${style.db__section} ${style.db__section_4} ion-padding `}>
+                                <IonIcon icon={person} size='large' /> <br />
+                                <div>
+                                    <IonText>
+                                        <big>Profile</big>
+                                    </IonText>
+                                </div>
                             </div>
                         </IonCol>
-                        <IonCol size='6'>
+                        {/* <IonCol size='6'>
                             <div className={`${style.db__section} ${style.db__section_4} ion-padding `}>
                                 <IonText>
                                     <big>Settings</big> <br />
                                 </IonText>
                             </div>
-                        </IonCol>
+                        </IonCol> */}
                     </IonRow>
                 </IonGrid>
 
