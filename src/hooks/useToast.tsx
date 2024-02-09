@@ -1,5 +1,5 @@
 import { useIonToast } from '@ionic/react'
-import { warningOutline } from 'ionicons/icons'
+import { checkmark, warningOutline } from 'ionicons/icons'
 
 
 type TostType = 'info' | 'success' | 'danger'
@@ -36,6 +36,19 @@ const useToast = () => {
             return
         }
         
+        if (toastType === 'success'){
+            await presentToast({
+                message,
+                position: 'top',
+                swipeGesture: 'vertical',
+                header,
+                duration: 4000,
+                color: 'success',
+                icon: checkmark
+            })
+            return
+        }
+
     }
     
     return {showToast, dismissToast}

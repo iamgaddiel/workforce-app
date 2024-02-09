@@ -1,5 +1,5 @@
-import { IonButton, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonLoading, useIonRouter, useIonToast } from '@ionic/react';
-import { arrowForward, mail, mailOutline, warning, warningOutline } from 'ionicons/icons';
+import { IonAvatar, IonButton, IonCol, IonContent, IonFooter, IonGrid, IonIcon, IonImg, IonInput, IonPage, IonRow, IonText, IonToolbar, useIonLoading, useIonRouter, useIonToast } from '@ionic/react';
+import { arrowForward, warning } from 'ionicons/icons';
 import React from 'react';
 import { useForm, SubmitHandler } from "react-hook-form"
 
@@ -8,6 +8,8 @@ import { LoginAuth } from '../../@types/auth';
 import Settings from '../../helpers/settings';
 import { saveData } from '../../helpers/storageSDKs';
 import { USER } from '../../helpers/keys';
+
+import Logo from '../../assets/images/MasterPlaceLOGO.png'
 
 
 
@@ -26,12 +28,13 @@ const Login: React.FC = () => {
 
 
 
+
     const onSubmit: SubmitHandler<LoginAuth> = async (formData) => {
         await presentLoading('Authenticating...')
 
         const { data, error } = await supabase.auth.signInWithPassword(formData)
 
-        if (error){
+        if (error) {
             await dismissLoading()
             await presentToast({
                 header: 'Authentication Error',
@@ -45,9 +48,14 @@ const Login: React.FC = () => {
             return
         }
 
-        console.log(data)
         await saveData(USER, data)
         await dismissLoading()
+
+        if (data.user.user_metadata?.role === 'user') {
+            router.push('/user/dashboard/reports')
+            return
+        }
+
         router.push('/app/dashboard/home')
     }
 
@@ -55,9 +63,17 @@ const Login: React.FC = () => {
     return (
         <IonPage>
             <IonContent className={`${style.content} ion-padding`}>
+    
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <IonGrid>
-                        <IonRow>
+                    <IonGrid fixed>
+                        <IonRow className='ion-justify-content-center'>
+                            <IonCol size='2'>
+                                <IonAvatar>
+                                    <IonImg src={Logo} />
+                                </IonAvatar>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow className='mt-4'>
                             <IonCol size='12'>
                                 <h1>Login</h1>
                                 <p>Please sign in to continue</p>

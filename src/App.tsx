@@ -33,6 +33,8 @@ import 'swiper/css';
 import './theme/App.module.css'
 import Login from './screens/Login/Login';
 import Routes from './Routes';
+import UserRoutes from './UserRoutes';
+import UserReports from './screens/UserReports/UserReports';
 
 setupIonicReact();
 
@@ -44,6 +46,8 @@ const App: React.FC = () => {
           <Route exact path="/" component={Onboarding} />
           <Route exact path="/login" component={Login} />
           <Route path={'/app/dashboard'} component={Routes} />
+          <Route path={'/user/dashboard'} component={UserRoutes} />
+          <Route path={'/reports'} component={UserReports} />
           {/* <Redirect exact from='/app' to="/app/dashboard" /> */}
         </IonRouterOutlet>
       </IonReactRouter>

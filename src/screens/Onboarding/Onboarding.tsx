@@ -24,11 +24,15 @@ const Onboarding: React.FC = () => {
     async function checkIfAuthenticated() {
 
         await presentLoading('Loading...')
-        const { user } = await getSaveData(USER) as UserType
+        const session = await getSaveData(USER)! as UserType
         await dismissLoading()
-        
-        if (user && user?.id) {
-            console.log("🚀 ~ checkIfAuthenticated ~ user:", user)
+
+        if (!Object.is(session, null)) {
+            if (session.user!.user_metadata?.role === 'user'){
+                console.log("🚀 ~ checkIfAuthenticated ~ user:", session.user)
+                router.push('/user/dashboard', 'root')
+                return
+            }
             router.push('/app/dashboard', 'root')
             return
         }

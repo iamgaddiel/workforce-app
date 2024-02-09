@@ -1,9 +1,9 @@
 import { thumbs } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
-import { IonAvatar, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonAvatar, IonBackButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonPage, IonRow, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import React, { useState } from 'react';
 
-import style from './Profile.module.css'
+import style from './UserProfile.module.css'
 import { person, personOutline, power } from 'ionicons/icons';
 import { clearAll } from '../../helpers/storageSDKs';
 import useUser from '../../hooks/useUser';
@@ -38,6 +38,9 @@ const Profile: React.FC = () => {
         <IonPage>
             <IonHeader className='ion-no-border pb-5'>
                 <IonToolbar>
+                    <IonButtons slot='start'>
+                        <IonBackButton defaultHref='/user/dashboard/reports' />
+                    </IonButtons>
                     <IonTitle>Your Profile</IonTitle>
                 </IonToolbar>
                 <section className={style.profile__wrapper}>

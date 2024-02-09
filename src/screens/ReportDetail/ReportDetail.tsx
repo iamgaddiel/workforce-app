@@ -14,7 +14,7 @@ const ReportDetail: React.FC = () => {
             <IonHeader className='ion-no-border'>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/dashboard/reports' />
+                        <IonBackButton defaultHref='/user/dashboard/reports' />
                     </IonButtons>
                     <IonTitle>Report</IonTitle>
                 </IonToolbar>

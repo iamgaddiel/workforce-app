@@ -6,6 +6,12 @@ export type AddUserType = {
     name: string
     email: string
     password: string
+    role: 'admin' | 'user'
+}
+
+export type EditUserType = {
+    name: string
+    email: string
 }
 
 export type UserType = {

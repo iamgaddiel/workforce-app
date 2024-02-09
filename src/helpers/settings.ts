@@ -31,7 +31,7 @@ const DEBUG = true
 // Create a single supabase client for interacting with your database
 const SUPABASE_URL = 'https://cljkapfcywuwxuawtnwv.supabase.co'
 
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamthcGZjeXd1d3h1YXd0bnd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYyOTM3MDQsImV4cCI6MjAyMTg2OTcwNH0.HwdSAZNOY5FEP7IvuzZeSQML9FP_A6Wb7fhIusUu1ok'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNsamthcGZjeXd1d3h1YXd0bnd2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcwNjI5MzcwNCwiZXhwIjoyMDIxODY5NzA0fQ.GeJdhjGjNIpXjNtm27NIFXcvt1XiKC6r2T44Q1bSxno'
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
