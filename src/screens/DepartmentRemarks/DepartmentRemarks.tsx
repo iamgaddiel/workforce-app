@@ -1,32 +1,37 @@
-import { IonItem, IonLabel, IonList } from '@ionic/react'
+import { IonItem, IonLabel, IonList, IonText } from '@ionic/react'
 import React from 'react'
 
-const DepartmentRemarks = () => {
+
+interface Props {
+    report: any
+}
+
+const DepartmentRemarks: React.FC<Props> = ({ report }) => {
     return (
         <>
             <IonList>
                 <IonItem>
                     <IonLabel>
                         <p>ASSISTANT HOD’S REMARK</p>
-                        Lorem ipsum dolor sit.
+                        {report.assistant_hod_remark === '' ? <IonText color={'medium'} ><small>N/A</small></IonText> : report.assistant_hod_remark}
                     </IonLabel>
                 </IonItem>
                 <IonItem>
                     <IonLabel>
                         <p>HOD’S REMARK</p>
-                        Lorem ipsum dolor sit.
+                        {report.hod_remark === '' ? <IonText color={'medium'} ><small>N/A</small></IonText> : report.hod_remark}
                     </IonLabel>
                 </IonItem>
                 <IonItem>
                     <IonLabel>
                         <p>MD’S REMARK</p>
-                        Lorem ipsum dolor sit.
+                        {report.md_remark === '' ? <IonText color={'medium'} ><small>N/A</small></IonText> : report.md_remark}
                     </IonLabel>
                 </IonItem>
                 <IonItem>
                     <IonLabel>
                         <p>OFFICIAL REMARK</p>
-                        Lorem ipsum dolor sit.
+                        {report.official_remark === '' ? <IonText color={'medium'} ><small>N/A</small></IonText> : report.official_remark}
                     </IonLabel>
                 </IonItem>
             </IonList>

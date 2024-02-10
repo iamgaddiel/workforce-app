@@ -140,9 +140,9 @@ const UserList: React.FC = () => {
                                     <IonCol size='1'>
                                         <IonIcon icon={add} style={{ fontSize: '1.3em' }} onClick={() => setIsOpen(true)} />
                                     </IonCol>
-                                    <IonCol size='1'>
+                                    {/* <IonCol size='1'>
                                         <IonIcon icon={search} style={{ fontSize: '1.3em' }} onClick={() => router.push('/app/dashboard/search-user')} />
-                                    </IonCol>
+                                    </IonCol> */}
                                     <IonCol size='1'>
                                         <IonIcon icon={trash} style={{ fontSize: '1.3em' }} color='danger' onClick={confirmDelete} />
                                     </IonCol>

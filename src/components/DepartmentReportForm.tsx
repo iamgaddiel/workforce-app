@@ -1,55 +1,27 @@
 import { IonGrid, IonRow, IonCol, IonInput, IonSelect, IonSelectOption, IonItem, IonListHeader, IonText } from '@ionic/react'
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { reportReducer } from '../reducers/functions/ReportReducer'
 import { ADD_ASSISTANT_1, ADD_ASSISTANT_2, ADD_DEPARTMENT, ADD_HOD_OR_MD, ADD_ITEM_EXPLANATION, ADD_SERVICE, ADD_TOTAL_ABSENTEES, ADD_TOTAL_MEMBERS_IN_DEPARTMENT, ADD_TOTAL_MEMBERS_IN_SERVICE, ADD_UNIT_LEADERS_ATTENDANCE_DETAIL } from '../reducers/actions/ReportAtions'
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from 'recoil'
+import { Report } from '../@types/Reports'
+import { CreateReportAtom } from '../atoms/Report'
 
 
 const service_count = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-const DepartmentReportForm = () => {
+type Props = {
+    setState:SetterOrUpdater<Report>
+}
 
-    const [_, dispatch] = useReducer(reportReducer, {
-        department: '',
-        service: 1,
-        director: '',
-        assistant_1: '',
-        assistant_2: '',
-        // absents: [],
-        any_observations: '',
-        assistant_hod_remark: '',
-        permitted_absentee_name_1: '',
-        permitted_absentee_name_2: '',
-        permitted_absentee_name_3: '',
-        permitted_absentee_name_4: '',
-        permitted_absentee_phone_1: '',
-        permitted_absentee_phone_2: '',
-        permitted_absentee_phone_3: '',
-        permitted_absentee_phone_4: '',
-        non_permitted_absentee_name_1: '',
-        non_permitted_absentee_name_2: '',
-        non_permitted_absentee_name_3: '',
-        non_permitted_absentee_name_4: '',
-        non_permitted_absentee_phone_1: '',
-        non_permitted_absentee_phone_2: '',
-        non_permitted_absentee_phone_3: '',
-        non_permitted_absentee_phone_4: '',
-        checked_on_1: '',
-        checked_on_2: '',
-        checked_on_3: '',
-        checked_on_4: '',
-        number_of_members_department: 0,
-        number_of_members_service: 0,
-        number_of_absentees: 0,
-        unit_leader_attendance_details: '',
-        b_c_d_explanation: '',
-        service_uniform: '',
-        peculiar_incidents: '',
-        general_incidents: '',
-        hod_remark: '',
-        md_remark: '',
-        official_remark: ''
-    })
+const DepartmentReportForm: React.FC<Props> = ({ setState }) => {
 
+    const [reportValue, setReportValues] = useRecoilState(CreateReportAtom)
+    const [state, dispatch] = useReducer(reportReducer, reportValue)
+
+
+    useEffect(() => {
+        setReportValues({...reportValue,...state})
+    }, [state])
 
 
     return (
@@ -187,7 +159,7 @@ const DepartmentReportForm = () => {
                     <IonInput
                         fill='outline'
                         placeholder='All unit leaders attendance details'
-                        label='Attendance Details'
+                        label='Unit Leader Attendance Details'
                         labelPlacement='stacked'
                         onIonChange={(e) => dispatch({
                             payload: e.detail.value as string,

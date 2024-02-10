@@ -1,7 +1,13 @@
 import { IonInput, IonItem, IonLabel, IonList, IonListHeader, IonText } from '@ionic/react'
+import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
 
-const DepartReportSection = () => {
+
+interface Props{
+    report: any
+}
+
+const DepartReportSection: React.FC<Props> = ({ report }) => {
     return (
         <>
             {/* Names */}
@@ -14,7 +20,7 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>Date</p>
-                        10 Oct, 2023
+                        {formatDistanceToNow(report.created_at)}
                     </IonLabel>
                 </IonItem>
 
@@ -22,7 +28,7 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>Service</p>
-                        1 Service
+                        {report.service}
                     </IonLabel>
                 </IonItem>
 
@@ -30,7 +36,7 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>Department</p>
-                        Media
+                        {report.department}
                     </IonLabel>
                 </IonItem>
 
@@ -38,15 +44,15 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>MD/HOD Name</p>
-                        John Doe
+                        {report.hod_or_md}
                     </IonLabel>
                 </IonItem>
 
                 {/* Assistant 1 */}
                 <IonItem>
                     <IonLabel>
-                        <p>MD/HOD Name</p>
-                        John Doe
+                        <p>Assistant </p>
+                        {report.assistant_1}
                     </IonLabel>
                 </IonItem>
 
@@ -54,7 +60,7 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>Assistant 2 (as it applies)</p>
-                        John Doe
+                        {report.assistant_2 ?? 'N/A'}
                     </IonLabel>
                 </IonItem>
             </IonList>
@@ -71,7 +77,7 @@ const DepartReportSection = () => {
                     <IonLabel>
                         Total Department Members
                     </IonLabel>
-                    <IonText slot='end'>200</IonText>
+                    <IonText slot='end'>{report.number_of_members_in_department}</IonText>
                 </IonItem>
 
                 {/* In Service Members */}
@@ -79,7 +85,7 @@ const DepartReportSection = () => {
                     <IonLabel>
                         Total Members in service
                     </IonLabel>
-                    <IonText slot='end'>200</IonText>
+                    <IonText slot='end'>{report.number_of_members_in_service}</IonText>
                 </IonItem>
 
                 {/* Absentee Members */}
@@ -87,7 +93,7 @@ const DepartReportSection = () => {
                     <IonLabel>
                         Total Absentees
                     </IonLabel>
-                    <IonText slot='end'>200</IonText>
+                    <IonText slot='end'>{report.number_of_absentee_members}</IonText>
                 </IonItem>
             </IonList>
 
@@ -95,7 +101,7 @@ const DepartReportSection = () => {
                 <IonItem>
                     <IonLabel>
                         <p>Unit Leaders Attendance Details</p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla, recusandae.
+                        {report.unit_leader_attendance_details}
                     </IonLabel>
                 </IonItem>
             </IonList>

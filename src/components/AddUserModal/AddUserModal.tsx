@@ -16,8 +16,6 @@ const { supabase } = Settings()
 const AddUserModal: React.FC<Props> = ({ isOpen, setIsOpen }) => {
     const { register, handleSubmit, formState: { errors } } = useForm<AddUserType>()
 
-    const router = useIonRouter()
-
     const [presentLoading, dismissLoading] = useIonLoading()
 
     const { showToast } = useToast()
@@ -30,10 +28,11 @@ const AddUserModal: React.FC<Props> = ({ isOpen, setIsOpen }) => {
         try {
             await presentLoading('Creating user...')
             const formData = {
-                ...data,
+                email: data.email,
+                password: data.password,
                 user_metadata: {
                     name: data.name,
-                    role: data.role
+                    role: data.role,
                 }
             }
 

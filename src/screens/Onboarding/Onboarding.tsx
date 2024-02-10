@@ -28,7 +28,7 @@ const Onboarding: React.FC = () => {
         await dismissLoading()
 
         if (!Object.is(session, null)) {
-            if (session.user!.user_metadata?.role === 'user'){
+            if (session.user!.user_metadata?.role === 'user') {
                 console.log("🚀 ~ checkIfAuthenticated ~ user:", session.user)
                 router.push('/user/dashboard', 'root')
                 return
@@ -43,30 +43,32 @@ const Onboarding: React.FC = () => {
     return (
         <IonPage>
             <IonContent className={`ion-padding`}>
-                <IonGrid fixed>
-                    <IonRow className='ion-justify-content-center'>
-                        <IonCol size='12' sizeMd='6' sizeLg='4'>
-                            <div className={`${style.logo_wrapper}`}>
-                                <IonImg src={logo} alt='mastersplacelogo' />
-                            </div>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className='ion-justify-content-between'>
-                        <IonCol size='12' sizeMd='6' sizeLg='4'>
-                            <IonText color={'primary'} className='ion-text-center'>
-                                <h1 className={`${style.title}`}>TheWorkForce</h1>
-                            </IonText>
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className='ion-justify-content-center'>
-                        <IonCol size='12' sizeMd='6' sizeLg='4'>
-                            <IonButton mode='ios' expand='block' shape='round' color={'primary'} onClick={checkIfAuthenticated}>
-                                Get Started
-                                <IonIcon icon={chevronForward} color='light' slot='end' />
-                            </IonButton>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
+                <div className="h-100 d-flex align-items-center p-10">
+                    <IonGrid fixed className=''>
+                        <IonRow className='ion-justify-content-center'>
+                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                                <div className={`${style.logo_wrapper}`}>
+                                    <IonImg src={logo} alt='mastersplacelogo' />
+                                </div>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow className='ion-justify-content-between'>
+                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                                <IonText color={'primary'} className='ion-text-center'>
+                                    <h1 className={`${style.title}`}>TheWorkForce</h1>
+                                </IonText>
+                            </IonCol>
+                        </IonRow>
+                        <IonRow className='ion-justify-content-center'>
+                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                                <IonButton mode='ios' expand='block' shape='round' color={'primary'} onClick={checkIfAuthenticated}>
+                                    Get Started
+                                    <IonIcon icon={chevronForward} color='light' slot='end' />
+                                </IonButton>
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
+                </div>
             </IonContent>
         </IonPage>
     );

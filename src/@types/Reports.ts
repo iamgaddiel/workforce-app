@@ -11,14 +11,14 @@ interface CheckedOn{
 }
 
 export type Report = {
-    director : string,
+    hod_or_md : string,
     assistant_1: string,
     assistant_2 ?: string,
     service: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10,
     department: string,
-    number_of_members_department: number,
-    number_of_members_service: number,
-    number_of_absentees: number,
+    number_of_members_in_department: number,
+    number_of_members_in_service: number,
+    number_of_absentee_members: number,
     unit_leader_attendance_details: string,
     b_c_d_explanation: string
     permitted_absentee_name_1: string,
@@ -44,7 +44,7 @@ export type Report = {
     service_uniform: string,
     peculiar_incidents: string,
     general_incidents: string,
-    any_observations: string,
+    observations: string,
     hod_remark: string,
     assistant_hod_remark: string,
     md_remark: string,

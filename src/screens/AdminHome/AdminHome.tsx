@@ -7,12 +7,62 @@ import style from './AdminHome.module.css'
 
 import logo from '../../assets/images/MasterPlaceLOGO.png'
 import useUser from '../../hooks/useUser';
+import { useQuery } from '@tanstack/react-query';
+import { UserType } from '../../@types/User';
+import { USER } from '../../helpers/keys';
+import { getSaveData } from '../../helpers/storageSDKs';
+import useToast from '../../hooks/useToast';
+import { useRecoilValue } from 'recoil';
+import { UserListTrigger } from '../../atoms/triggers';
+import Settings from '../../helpers/settings';
 
+import NotFound from '../../assets/images/empty.jpg'
+import { formatDistanceToNow } from 'date-fns';
+
+
+
+
+
+const { supabase } = Settings()
 
 const AdminHome: React.FC = () => {
     const router = useIonRouter()
 
     const userObject = useUser()
+
+    const trigger = useRecoilValue(UserListTrigger)
+
+    const { showToast } = useToast()
+
+
+    const { data: reports, isLoading } = useQuery({
+        queryKey: ['user_reports', trigger],
+        queryFn: getUserReports
+    })
+
+
+
+    async function getUserReports() {
+        const session = await getSaveData(USER) as UserType
+
+        let { data, error } = await supabase
+            .from('reports')
+            .select('department, hod_or_md, created_at, id')
+            .range(0, 4)
+
+
+        if (error) {
+            showToast(
+                'Unable to fetch reports at this time. try again later',
+                'danger',
+                'Error Fetching Data'
+            )
+            throw new Error('Unable to fetch reports at this time. try again later')
+        }
+
+        return data
+    }
+
 
 
     return (
@@ -23,7 +73,7 @@ const AdminHome: React.FC = () => {
                     <IonRow className='ion-justify-content-between align-items-center'>
                         <IonCol size='7'>
                             <IonText>
-                                <small>Hey {userObject?.user?.email!}</small> <br />
+                                <small>Hey {userObject?.user?.user_metadata?.name ?? 'Admin'}</small> <br />
                                 <big>Welcome back!</big>
                             </IonText>
                         </IonCol>
@@ -55,7 +105,7 @@ const AdminHome: React.FC = () => {
                     </IonRow>
                     <IonRow className='ion-align-items-start'>
                         <IonCol size='12'>
-                            <div className={`${style.db__section} ${style.db__section_4} ion-padding `}>
+                            <div className={`${style.db__section} ${style.db__section_4} ion-padding `} onClick={() => router.push('/app/dashboard/profile')}>
                                 <IonIcon icon={person} size='large' /> <br />
                                 <div>
                                     <IonText>
@@ -84,7 +134,7 @@ const AdminHome: React.FC = () => {
                         </IonCol>
                         <IonCol size='3' className='ion-text-end'>
                             <IonText>
-                                <IonRouterLink routerLink='/dashboard/reports' routerDirection='forward'>
+                                <IonRouterLink routerLink='/app/dashboard/reports' routerDirection='forward'>
                                     <IonIcon icon={chevronForward} />
                                 </IonRouterLink>
                             </IonText>
@@ -93,21 +143,36 @@ const AdminHome: React.FC = () => {
 
                     <IonRow>
                         {
-                            [...new Array(5).keys()].map((item, indx) => (
-                                <IonCol size='12' key={indx}>
-                                    <div className="border border-1 rounded-3">
-                                        <IonItem lines='none' detail>
-                                            <IonAvatar slot='start'>
-                                                <IonImg src={logo} />
-                                            </IonAvatar>
-                                            <IonLabel>
-                                                John Smith
-                                                <p>Today, 6:20am</p>
-                                            </IonLabel>
-                                        </IonItem>
+                            reports?.length! > 0 ? (
+                                <>
+                                    {
+                                        reports?.map((item, indx) => (
+                                            <IonCol size='12' key={indx}>
+                                                <div className="border border-1 rounded-3">
+                                                    <IonItem lines='none' detail routerDirection='forward' routerLink={`/user/dashboard/report-detail/${item.id}`}>
+                                                        <IonAvatar slot='start'>
+                                                            <IonImg src={logo} />
+                                                        </IonAvatar>
+                                                        <IonLabel>
+                                                            {item.hod_or_md}
+                                                            <p>{formatDistanceToNow(item.created_at)}</p>
+                                                        </IonLabel>
+                                                    </IonItem>
+                                                </div>
+                                            </IonCol>
+                                        ))
+                                    }
+                                </>
+                            ) : (
+                                <div className='d-flex align-items-center justify-content-center' style={{ height: '80dvh' }}>
+                                    <div>
+                                        <IonAvatar className='mx-auto'>
+                                            <IonImg src={NotFound} />
+                                        </IonAvatar>
+                                        <IonText color={'medium'} className='mt-4'>No users found!</IonText>
                                     </div>
-                                </IonCol>
-                            ))
+                                </div>
+                            )
                         }
                     </IonRow>
                 </IonGrid>

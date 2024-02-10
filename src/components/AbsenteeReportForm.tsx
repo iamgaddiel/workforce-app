@@ -1,55 +1,30 @@
 import { IonGrid, IonRow, IonCol, IonItem, IonInput, IonSelect, IonSelectOption, IonListHeader } from '@ionic/react'
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { reportReducer } from '../reducers/functions/ReportReducer'
 import { ADD_WHO_OBTAINED_PERMISSION_NAME_1 } from '../reducers/actions/ReportAtions'
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from 'recoil'
+import { Report } from '../@types/Reports'
+import { CreateReportAtom } from '../atoms/Report'
 
 
 
 const service_count = [1, 2, 3, 4]
 
+type Props = {
+    setState:SetterOrUpdater<Report>
+}
 
-const AbsenteeReportForm = () => {
-    const [_, dispatch] = useReducer(reportReducer, {
-        department: '',
-        service: 1,
-        director: '',
-        assistant_1: '',
-        assistant_2: '',
-        // absents: [],
-        any_observations: '',
-        assistant_hod_remark: '',
-        permitted_absentee_name_1: '',
-        permitted_absentee_name_2: '',
-        permitted_absentee_name_3: '',
-        permitted_absentee_name_4: '',
-        permitted_absentee_phone_1: '',
-        permitted_absentee_phone_2: '',
-        permitted_absentee_phone_3: '',
-        permitted_absentee_phone_4: '',
-        non_permitted_absentee_name_1: '',
-        non_permitted_absentee_name_2: '',
-        non_permitted_absentee_name_3: '',
-        non_permitted_absentee_name_4: '',
-        non_permitted_absentee_phone_1: '',
-        non_permitted_absentee_phone_2: '',
-        non_permitted_absentee_phone_3: '',
-        non_permitted_absentee_phone_4: '',
-        checked_on_1: '',
-        checked_on_2: '',
-        checked_on_3: '',
-        checked_on_4: '',
-        number_of_members_department: 0,
-        number_of_members_service: 0,
-        number_of_absentees: 0,
-        unit_leader_attendance_details: '',
-        b_c_d_explanation: '',
-        service_uniform: '',
-        peculiar_incidents: '',
-        general_incidents: '',
-        hod_remark: '',
-        md_remark: '',
-        official_remark: ''
-    })
+
+const AbsenteeReportForm: React.FC<Props> = ({ setState }) => {
+    const [reportValue, setReportValues] = useRecoilState(CreateReportAtom)
+    const [state, dispatch] = useReducer(reportReducer, reportValue)
+
+
+    useEffect(() => {
+        setReportValues({...reportValue,...state})
+        console.log("🚀 ~ useEffect ~ state:", state)
+        console.log("🚀 ~ useEffect ~ reportValue:", reportValue)
+    }, [state])
 
 
     return (
