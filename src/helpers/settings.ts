@@ -38,9 +38,9 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 
 // BACKEND SERVER CONFIG 
-const LOCAL_SERVER_URL = 'http://localhost:3000'
+const LOCAL_SERVER_URL = 'http://localhost:8000'
 
-const REMOTE_SERVER_URL = 'https://encostay-saver.onrender.com'
+const REMOTE_SERVER_URL = 'theworkforceapp.pythonanywhere.com'
 
 // const serverBaseUrl = LOCAL_SERVER_URL
 
@@ -64,9 +64,7 @@ export default function Settings() {
     return {
         appName,
         storage,
-        // pb,
         DEBUG,
-        // pocketbaseUrl,
         serverBaseUrl,
         supabase
     }
