@@ -32,7 +32,7 @@ const AddUserModal: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                 password: data.password,
                 user_metadata: {
                     name: data.name,
-                    role: data.role,
+                    role: 'user',
                 }
             }
 
@@ -99,18 +99,6 @@ const AddUserModal: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                                     }
                                 })} />
                                 {errors.password && <small className='text-danger'>{errors.password.message}</small>}
-                            </IonCol>
-                            <IonCol size='12' className='ion-margin-top'>
-                                <IonSelect placeholder='Admin' label='Role' labelPlacement='fixed' fill='outline' {...register('role', {
-                                    required: {
-                                        value: true,
-                                        message: 'This field is required'
-                                    }
-                                })}>
-                                    <IonSelectOption value={'admin'}>Admin</IonSelectOption>
-                                    <IonSelectOption value={'user'}>User</IonSelectOption>
-                                </IonSelect>
-                                {errors.role && <small className='text-danger'>{errors.role.message}</small>}
                             </IonCol>
                         </IonRow>
                         <IonRow className='ion-justify-content-end ion-margin-top'>

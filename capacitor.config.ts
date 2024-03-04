@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'workforce-app',
+  appId: 'com.theworkforceapp.thisrupt',
+  appName: 'The Workforce Wpp',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

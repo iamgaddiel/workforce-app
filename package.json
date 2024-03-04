@@ -12,11 +12,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@capacitor/android": "5.6.0",
     "@capacitor/app": "5.0.6",
     "@capacitor/core": "5.6.0",
     "@capacitor/haptics": "5.0.6",
+    "@capacitor/ios": "5.6.0",
     "@capacitor/keyboard": "5.0.7",
     "@capacitor/network": "^5.0.7",
+    "@capacitor/splash-screen": "^5.0.7",
     "@capacitor/status-bar": "5.0.6",
     "@dicebear/collection": "^7.0.4",
     "@dicebear/core": "^7.0.4",
@@ -40,12 +43,14 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "recoil": "^0.7.7",
+    "sharp": "^0.33.2",
     "supabase": "^1.136.3",
     "sweetalert": "^2.1.2",
     "swiper": "^11.0.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.4",
     "@capacitor/cli": "5.6.0",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^5.16.5",

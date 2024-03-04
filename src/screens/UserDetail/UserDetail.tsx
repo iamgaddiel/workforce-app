@@ -1,9 +1,9 @@
-import { IonAvatar, IonBackButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonPage, IonRow, IonSkeletonText, IonText, IonTitle, IonToolbar, useIonAlert, useIonLoading, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonAvatar, IonBackButton, IonButton, IonButtons, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonImg, IonPage, IonRow, IonSkeletonText, IonText, IonTitle, IonToolbar, useIonAlert, useIonLoading, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import React, { useState } from 'react';
 import { createAvatar } from '@dicebear/core';
 import { thumbs } from '@dicebear/collection';
 import { useParams } from 'react-router';
-import { pencil, trash } from 'ionicons/icons';
+import { bagCheckOutline, pencil, trash } from 'ionicons/icons';
 
 import style from './UserDetail.module.css'
 import UserEditModal from '../../components/UserEditModal/UserEditModal';
@@ -12,6 +12,7 @@ import Settings from '../../helpers/settings';
 import useToast from '../../hooks/useToast';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { UserDetailsTrigger, UserListTrigger } from '../../atoms/triggers';
+import { _post } from '../../helpers/api';
 
 
 
@@ -50,29 +51,71 @@ const UserDetail: React.FC = () => {
     }, [])
 
 
-    const { data, isLoading, isError } = useQuery({
+    const { data: currentUser, isLoading, isError } = useQuery({
         queryKey: ['singleUser', trigger],
         queryFn: getUserDetails
     })
 
 
 
+    async function sendUserVerificationLink() {
+        // Get Magic Link
+        const { data: linkData } = await supabase.auth.admin.generateLink({
+            type: 'magiclink',
+            email: currentUser?.user?.email! as string
+        })
+        console.log("🚀 ~ sendUserVerificationLink ~ linkData:", linkData)
+
+
+        let { data: emailCredentials, error: emailDataError } = await supabase
+            .from('credentials')
+            .select('s_key')
+            .eq('service', 'rapid_api')
+            .single()
+
+
+        const url = 'https://fapimail.p.rapidapi.com/email/send';
+        const headers = {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': emailCredentials?.s_key,
+            'X-RapidAPI-Host': 'fapimail.p.rapidapi.com'
+        }
+        const data = {
+            recipient: currentUser?.user?.email!,
+            sender: 'thisrupt@prton.me',
+            subject: 'Verify Email',
+            message: `Confrim you email by clicking on the link below \n ${linkData.properties?.redirect_to}`
+        };
+        
+        try {
+            const { data: emailSentResponse, status } = await _post(url, data, headers)
+            console.log(emailSentResponse, '<---');
+        } catch (error: any) {
+            showToast(error, 'danger', 'Unable to send link')
+            return
+        }
+
+        
+        showToast('Kindly notify user to check thier email', 'success', 'Link Sent Successfully')
+    }
+
 
     async function getUserDetails() {
         try {
             const { data } = await supabase.auth.admin.getUserById(userId)
+            console.log(data.user?.confirmed_at, "----- Confirm -")
             return data
         } catch (error) {
             throw new Error('User not found')
         }
     }
-    
-    
+
+
     async function deleteUser(userId: string) {
         await presentLoading('Deleting user...')
         await supabase.auth.admin.deleteUser(userId)
         await dismissLoading()
-        showToast('User deleted successfuly', 'success', 'Success')
+        showToast('User deleted successfully', 'success', 'Success')
         setUserListTrigger((currentTriggerState) => !currentTriggerState)
         router.push('/app/dashboard/users')
     }
@@ -125,9 +168,9 @@ const UserDetail: React.FC = () => {
                         ) : (
                             <IonRow className='ion-margin-top mt-5'>
                                 <IonCol size='12' className='ion-text-center'>
-                                    <IonText className='fs-2'>{data?.user?.user_metadata?.name!}</IonText> <br />
+                                    <IonText className='fs-2'>{currentUser?.user?.user_metadata?.name!}</IonText> <br />
                                     <IonText color={'medium'}>
-                                        <small>{data?.user?.email!}</small>
+                                        <small>{currentUser?.user?.email!}</small>
                                     </IonText>
                                 </IonCol>
                             </IonRow>
@@ -145,9 +188,47 @@ const UserDetail: React.FC = () => {
                             </div>
                         </IonCol>
                     </IonRow>
+                    <IonRow className='ion-justify-content-center ion-text-center ion-margin-top'>
+                        <IonCol size='12' className='ion-padding-horizontal'>
+                            <IonButton mode='ios' expand='block' onClick={() => sendUserVerificationLink()}>
+                                <IonText color={'light'}>
+                                    Send Verification Link
+                                </IonText>
+                                <IonIcon color='light' icon={bagCheckOutline} slot='end' />
+                            </IonButton>
+                            <div className="mt-3">
+                                <small className="text-muted mt-4 text-start">users will not be able to login if they don't verify their email</small>
+                            </div>
+                        </IonCol>
+                        {/* {
+                            isLoading ? (<IonSkeletonText style={{ width: '80%' }} animated />) : (
+                                <>
+                                    {
+                                        Object.is(data?.user?.confirmation_sent_at, undefined) ? (
+                                            <IonCol size='12' className='ion-padding-horizontal'>
+                                                <IonButton mode='ios' expand='block' onClick={() => sendUserVerificationLink()}>
+                                                    <IonText color={'light'}>
+                                                        Send Verification Link
+                                                    </IonText>
+                                                    <IonIcon color='light' icon={bagCheckOutline} slot='end' />
+                                                </IonButton>
+                                                <div className="mt-3">
+                                                    <small className="text-muted mt-4 text-start">users will not be able to login if they don't verify their email</small>
+                                                </div>
+                                            </IonCol>
+                                        ) : (
+                                            <IonCol size='3'>
+                                                <IonChip color={'success'}>Verified</IonChip>
+                                            </IonCol>
+                                        )
+                                    }
+                                </>
+                            )
+                        } */}
+                    </IonRow>
                 </IonGrid>
 
-                <UserEditModal isOpen={isOPen} setIsOpen={setIsOpen} userDetails={data?.user!} />
+                <UserEditModal isOpen={isOPen} setIsOpen={setIsOpen} userDetails={currentUser?.user!} />
             </IonContent>
         </IonPage>
     );
