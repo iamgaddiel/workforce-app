@@ -8,6 +8,7 @@ flask = "*"
 requests = "*"
 flask-mail = "*"
 python-dotenv = "*"
+flask-cors = "*"
 
 [dev-packages]
 

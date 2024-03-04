@@ -17,7 +17,7 @@ import { _post } from '../../helpers/api';
 
 
 
-const { supabase } = Settings()
+const { supabase, serverBaseUrl } = Settings()
 
 const UserDetail: React.FC = () => {
     const { userId } = useParams<{ userId: string }>()
@@ -59,6 +59,8 @@ const UserDetail: React.FC = () => {
 
 
     async function sendUserVerificationLink() {
+        await presentLoading('Sending verification link to user...please wait')
+
         // Get Magic Link
         const { data: linkData } = await supabase.auth.admin.generateLink({
             type: 'magiclink',
@@ -66,36 +68,23 @@ const UserDetail: React.FC = () => {
         })
         console.log("🚀 ~ sendUserVerificationLink ~ linkData:", linkData)
 
-
-        let { data: emailCredentials, error: emailDataError } = await supabase
-            .from('credentials')
-            .select('s_key')
-            .eq('service', 'rapid_api')
-            .single()
-
-
-        const url = 'https://fapimail.p.rapidapi.com/email/send';
-        const headers = {
-            'content-type': 'application/json',
-            'X-RapidAPI-Key': emailCredentials?.s_key,
-            'X-RapidAPI-Host': 'fapimail.p.rapidapi.com'
-        }
+        const url = `${serverBaseUrl}/send_mail`
         const data = {
-            recipient: currentUser?.user?.email!,
-            sender: 'thisrupt@prton.me',
-            subject: 'Verify Email',
-            message: `Confrim you email by clicking on the link below \n ${linkData.properties?.redirect_to}`
+            email: currentUser?.user?.email!,
+            link: linkData.properties?.action_link
         };
+        const headers = {'Content-Type': 'application/json'}
         
         try {
             const { data: emailSentResponse, status } = await _post(url, data, headers)
             console.log(emailSentResponse, '<---');
         } catch (error: any) {
+            await dismissLoading()
             showToast(error, 'danger', 'Unable to send link')
             return
         }
 
-        
+        await dismissLoading()
         showToast('Kindly notify user to check thier email', 'success', 'Link Sent Successfully')
     }
 
