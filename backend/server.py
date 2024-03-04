@@ -3,6 +3,11 @@ from flask_mail import Mail, Message
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
+from os.path import join, dirname
+
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 load_dotenv()
 
@@ -16,6 +21,8 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = os.getenv('EMAIL_HOST')
 app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASSWORD')
+
+
 
 mail = Mail(app)
 

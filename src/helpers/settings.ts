@@ -14,7 +14,7 @@ import { createClient } from '@supabase/supabase-js'
  */
 const appName = "workforce-app"
 
-const DEBUG = true
+const DEBUG = false
 
 
 // POCKETBASE SERVER CONFIG
@@ -40,7 +40,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 // BACKEND SERVER CONFIG 
 const LOCAL_SERVER_URL = 'http://localhost:8000'
 
-const REMOTE_SERVER_URL = 'theworkforceapp.pythonanywhere.com'
+const REMOTE_SERVER_URL = 'https://theworkforceapp.pythonanywhere.com'
 
 // const serverBaseUrl = LOCAL_SERVER_URL
 
