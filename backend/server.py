@@ -43,9 +43,10 @@ def send_mail():
         if 'email' in data and 'link' in data:
             recipient_email: str = data.get('email')
             link: str = data.get('link')
+            name: str = data.get('name')
             
             msg = Message('Verify Email', sender='no-reply', recipients=[recipient_email])
-            msg.body = f'Confrim you email by clicking on the link below \n {link}'
+            msg.body = f'Hello {name}.\n\nKindly confirm you email by clicking on the link below \n {link}'
             mail.send(msg)
 
             # Return a JSON response

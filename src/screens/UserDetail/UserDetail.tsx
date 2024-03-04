@@ -71,7 +71,8 @@ const UserDetail: React.FC = () => {
         const url = `${serverBaseUrl}/send_mail`
         const data = {
             email: currentUser?.user?.email!,
-            link: linkData.properties?.action_link
+            link: linkData.properties?.action_link,
+            name: currentUser?.user?.user_metadata?.name!
         };
         const headers = {'Content-Type': 'application/json'}
         
