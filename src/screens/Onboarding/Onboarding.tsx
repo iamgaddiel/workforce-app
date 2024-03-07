@@ -46,21 +46,17 @@ const Onboarding: React.FC = () => {
                 <div className="h-100 d-flex align-items-center p-10">
                     <IonGrid fixed className=''>
                         <IonRow className='ion-justify-content-center'>
-                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                            <IonCol size='12' sizeMd='12' sizeLg='4'>
                                 <div className={`${style.logo_wrapper}`}>
                                     <IonImg src={logo} alt='mastersplacelogo' />
                                 </div>
                             </IonCol>
-                        </IonRow>
-                        <IonRow className='ion-justify-content-between'>
-                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                            <IonCol size='12' sizeMd='12' sizeLg='12'>
                                 <IonText color={'primary'} className='ion-text-center'>
-                                    <h1 className={`${style.title}`}>TheWorkForce</h1>
+                                    <h1 className={`${style.title} text-center`}>TheWorkForce</h1>
                                 </IonText>
                             </IonCol>
-                        </IonRow>
-                        <IonRow className='ion-justify-content-center'>
-                            <IonCol size='12' sizeMd='6' sizeLg='4'>
+                            <IonCol size='12' sizeMd='12' sizeLg='3'>
                                 <IonButton mode='ios' expand='block' shape='round' color={'primary'} onClick={checkIfAuthenticated}>
                                     Get Started
                                     <IonIcon icon={chevronForward} color='light' slot='end' />
