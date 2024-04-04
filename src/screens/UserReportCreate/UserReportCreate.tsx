@@ -15,7 +15,7 @@ import { CreateReportAtom } from '../../atoms/Report';
 import { Report } from '../../@types/Reports';
 import useUser from '../../hooks/useUser';
 import Settings from '../../helpers/settings';
-import { ADD_DEPARTMENT, ADD_SERVICE, ADD_HOD_OR_MD, ADD_ASSISTANT_1, ADD_ASSISTANT_2, ADD_TOTAL_MEMBERS_IN_DEPARTMENT, ADD_TOTAL_MEMBERS_IN_SERVICE, ADD_TOTAL_ABSENTEES, ADD_UNIT_LEADERS_ATTENDANCE_DETAIL, ADD_ITEM_EXPLANATION, ADD_SERVICE_UNIFORM, ADD_ASSISTANT_HOD_REMARK, ADD_GENERAL_INCIDENT, ADD_HOD_REMARK, ADD_MD_REMARK, ADD_OFFICIAL_REMARK, ADD_OTHER_INCIDENT, ADD_PECULIAR_INCIDENT } from '../../reducers/actions/ReportAtions';
+import { ADD_DEPARTMENT, ADD_SERVICE, ADD_HOD_OR_MD, ADD_ASSISTANT_1, ADD_ASSISTANT_2, ADD_TOTAL_MEMBERS_IN_DEPARTMENT, ADD_TOTAL_MEMBERS_IN_SERVICE, ADD_TOTAL_ABSENTEES, ADD_UNIT_LEADERS_ATTENDANCE_DETAIL, ADD_ITEM_EXPLANATION, ADD_SERVICE_UNIFORM, ADD_ASSISTANT_HOD_REMARK, ADD_GENERAL_INCIDENT, ADD_HOD_REMARK, ADD_MD_REMARK, ADD_OFFICIAL_REMARK, ADD_OTHER_INCIDENT, ADD_PECULIAR_INCIDENT, ADD_DATE } from '../../reducers/actions/ReportAtions';
 import { reportReducer } from '../../reducers/functions/ReportReducer';
 import { UserListTrigger } from '../../atoms/triggers';
 
@@ -80,7 +80,8 @@ const UserReportCreate: React.FC = () => {
             service_uniform
         } = state
 
-        if (department  === '' || service  === ''|| hod_or_md  === '' || assistant_1  === '' || b_c_d_explanation  === '' || service_uniform  === '') {
+        // if (department  === '' || service  === ''|| hod_or_md  === '' || assistant_1  === '' || b_c_d_explanation  === '' || service_uniform  === '') {
+        if (department  === '' || hod_or_md  === '' || assistant_1  === '' || b_c_d_explanation  === '' || service_uniform  === '') {
             await dismissLoading()
             await presetAlert({
                 header: 'Missing fields',
@@ -153,7 +154,7 @@ const UserReportCreate: React.FC = () => {
                 <IonGrid>
                     <IonRow>
                         <IonCol size='12'>
-                            <IonItem lines='full'>Department</IonItem>
+                            <IonItem lines='full'>Department Details</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -171,8 +172,22 @@ const UserReportCreate: React.FC = () => {
                                 })}
                             />
                         </IonCol>
-
                         <IonCol size='6'>
+                            <IonInput
+                                fill='outline'
+                                type='date'
+                                placeholder='Date'
+                                label='Date'
+                                labelPlacement='stacked'
+                                onChange={e => console.log(e.currentTarget.value, '<<<<<<')}
+                                onIonChange={(e) => dispatch({
+                                    payload: e.detail.value as string,
+                                    action: ADD_DATE
+                                })}
+                            />
+                        </IonCol>
+
+                        {/* <IonCol size='6'>
                             <IonSelect
                                 placeholder='Service'
                                 label='Service'
@@ -189,8 +204,9 @@ const UserReportCreate: React.FC = () => {
                                     ))
                                 }
                             </IonSelect>
-                        </IonCol>
+                        </IonCol> */}
                     </IonRow>
+                    
                     <IonRow className='ion-margin-top'>
                         <IonCol size='12' sizeMd='6'>
                             <IonInput
@@ -255,8 +271,8 @@ const UserReportCreate: React.FC = () => {
                                 type='text'
                                 inputMode='numeric'
                                 fill='outline'
-                                placeholder='Service'
-                                label='Service'
+                                placeholder='Available'
+                                label='Available'
                                 labelPlacement='stacked'
                                 onIonChange={(e) => dispatch({
                                     payload: e.detail.value as string,

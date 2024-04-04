@@ -134,7 +134,7 @@ const UserReports: React.FC = () => {
                             <>
                                 {
                                     [...new Array(4).keys()].map((item, index) => (
-                                        <IonSkeletonText animated style={{ with: '100%', height: '80px' }} className='mt-3' />
+                                        <IonSkeletonText animated style={{ with: '100%', height: '80px' }} className='mt-3' key={index} />
                                     ))
                                 }
                             </>

@@ -48,7 +48,8 @@ export type Report = {
     hod_remark: string,
     assistant_hod_remark: string,
     md_remark: string,
-    official_remark: string
+    official_remark: string,
+    date: string
 }
 
 export type ReportAction = {

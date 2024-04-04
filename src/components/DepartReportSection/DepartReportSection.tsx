@@ -1,10 +1,11 @@
 import { IonInput, IonItem, IonLabel, IonList, IonListHeader, IonText } from '@ionic/react'
 import { formatDistanceToNow } from 'date-fns'
 import React from 'react'
+import { Report } from '../../@types/Reports'
 
 
 interface Props{
-    report: any
+    report: Report
 }
 
 const DepartReportSection: React.FC<Props> = ({ report }) => {
@@ -20,7 +21,7 @@ const DepartReportSection: React.FC<Props> = ({ report }) => {
                 <IonItem>
                     <IonLabel>
                         <p>Date</p>
-                        {formatDistanceToNow(report.created_at)}
+                        {report.date}
                     </IonLabel>
                 </IonItem>
 
