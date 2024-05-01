@@ -8,6 +8,8 @@ import { mail, mailOutline, person, personOutline, power } from 'ionicons/icons'
 import { clearAll } from '../../helpers/storageSDKs';
 import useUser from '../../hooks/useUser';
 
+
+
 const Profile: React.FC = () => {
     const [avatar, setAvatar] = useState('')
     const email = 'useremail'

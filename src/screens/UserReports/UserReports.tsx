@@ -8,7 +8,7 @@ import SmallAvatarImage from '../../components/SmallAvatarImage/SmallAvatarImage
 import Settings from '../../helpers/settings';
 import useToast from '../../hooks/useToast';
 import { useQuery } from '@tanstack/react-query';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, getDate, getMonth, getYear } from 'date-fns';
 import { getSaveData } from '../../helpers/storageSDKs';
 import { USER } from '../../helpers/keys';
 import { UserType } from '../../@types/User';
@@ -102,7 +102,7 @@ const UserReports: React.FC = () => {
 
     return (
         <IonPage>
-            <IonContent className="ion-padding">
+            <IonContent className="ion-padding" fullscreen>
                 <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
                     <IonRefresherContent></IonRefresherContent>
                 </IonRefresher>
@@ -114,7 +114,7 @@ const UserReports: React.FC = () => {
                     </IonFabButton>
                 </IonFab>
                 {/* Greeter */}
-                <IonGrid>
+                <IonGrid fixed>
                     <IonRow className='ion-justify-content-between align-items-center'>
                         <IonCol size='7'>
                             <IonText>
@@ -156,7 +156,12 @@ const UserReports: React.FC = () => {
                                                                     </IonText>
                                                                 </div>
                                                                 <div className="ion-margin-top">
-                                                                    <small>{formatDistanceToNow(item.created_at)} </small>
+                                                                    {/* <small>{formatDistanceToNow(item.created_at)} </small> */}
+                                                                    <small>
+                                                                        {getDate(item.created_at)}-
+                                                                        {getMonth(item.created_at)}-
+                                                                        {getYear(item.created_at)}
+                                                                    </small>
                                                                 </div>
 
                                                             </IonCardContent>

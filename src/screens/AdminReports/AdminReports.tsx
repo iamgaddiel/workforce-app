@@ -8,7 +8,7 @@ import SmallAvatarImage from '../../components/SmallAvatarImage/SmallAvatarImage
 import Settings from '../../helpers/settings';
 import useToast from '../../hooks/useToast';
 import { useQuery } from '@tanstack/react-query';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, getDate, getMonth, getYear } from 'date-fns';
 import { getSaveData } from '../../helpers/storageSDKs';
 import { USER } from '../../helpers/keys';
 import { UserType } from '../../@types/User';
@@ -149,7 +149,12 @@ const UserReports: React.FC = () => {
                                                                     </IonText>
                                                                 </div>
                                                                 <div className="ion-margin-top">
-                                                                    <small>{formatDistanceToNow(item.created_at)} </small>
+                                                                    {/* <small>{formatDistanceToNow(item.created_at)} </small> */}
+                                                                    <small>
+                                                                        {getDate(item.created_at)}-
+                                                                        {getMonth(item.created_at)}-
+                                                                        {getYear(item.created_at)}
+                                                                    </small>
                                                                 </div>
 
                                                             </IonCardContent>
